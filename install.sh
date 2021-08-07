@@ -54,7 +54,6 @@ _EOF_
 
 cloudflared service install --legacy
 systemctl restart cloudflared
-systemctl status cloudflared
 
 if (systemctl is-active --quiet cloudflared); then
         echo -e "Cloudflared is Running!"
