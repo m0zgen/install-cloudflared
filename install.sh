@@ -56,8 +56,20 @@ cloudflared service install --legacy
 systemctl restart cloudflared
 systemctl status cloudflared
 
-# Check works
-dig @127.0.0.1 -p 5053 google.com
+if (systemctl is-active --quiet cloudflared); then
+        echo -e "Cloudflared is Running!"
+        # Check works (if dig exists)
+		if ! command -v dig &> /dev/null
+		then
+		    echo "dig could not be found, please test DNS manually on port 5053."
+		else
+			dig @127.0.0.1 -p 5053 google.com
+		fi
 
-echo "You can use Cloudflared like as: 127.0.0.1#5053"
-echo "Done!"
+		echo "You can use Cloudflared like as: 127.0.0.1#5053"
+		echo "Done!"
+else
+        echo -e "Cloudflared has Stopped status!"
+        exit 1
+fi
+
